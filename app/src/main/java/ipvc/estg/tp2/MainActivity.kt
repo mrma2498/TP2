@@ -12,30 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //loadProdutos()
-    }
-
-    //teste
-    private fun loadProdutos(){
-        val docs = Firebase.firestore.collection("produtos")
-
-        Log.d("MARIA",docs.toString())
-
-
-        docs.addSnapshotListener{ snapshot, e ->
-
-            val produtos = mutableListOf<Produto>()
-            for (documento in snapshot!!.documents){
-                val produto = Produto(
-                documento.id,
-                "${documento.data?.get("nome")}",
-                ""
-                )
-                produtos += produto
-            }
-            Log.d("MARIA",produtos.toString())
-
-        }
 
     }
+
+
 }
