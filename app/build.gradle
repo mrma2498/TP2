@@ -7,7 +7,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/mariaaraujo/AndroidStudioProjects/TP2/credentials/release.keystore')
+            storeFile file('Users/marco/AndroidStudioProjects/TP2/credentials/release.keystore')
             storePassword 'androidtp2'
             keyAlias 'android'
             keyPassword 'androidtp2'
@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
