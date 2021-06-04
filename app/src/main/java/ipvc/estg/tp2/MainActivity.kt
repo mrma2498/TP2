@@ -19,5 +19,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, MapsActivity::class.java)
             startActivity(intent)
         }
+
     }
 }
