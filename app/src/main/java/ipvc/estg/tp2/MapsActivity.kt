@@ -2,6 +2,7 @@ package ipvc.estg.tp2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -73,6 +74,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 parques += parque
             }
+            Log.d("maria",parques.toString())
+
+            /**Insere os markers no mapa aqui, como fizemos no primeiro trabalho.
+             *  Se for fora desta função a lista está vazia.
+             *  */
 
         }
     }
