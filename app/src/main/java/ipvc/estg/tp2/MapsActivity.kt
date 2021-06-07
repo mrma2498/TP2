@@ -1,6 +1,7 @@
 package ipvc.estg.tp2
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,15 +21,21 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.grpc.InternalChannelz.id
 import ipvc.estg.tp2.model.Parque
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var lastLocation: Location
+    private lateinit var locationRequest: LocationRequest
+    private val LOCATION_PERMISSION_REQUEST_CODE = 2
+
     /**Variável que contém a lista dos parques de estacionamento*/
     val parques = mutableListOf<Parque>()
 
@@ -40,7 +48,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        getListaParques()
+
+
+        val fabverParques = findViewById<FloatingActionButton>(R.id.btnVerParques)
+        fabverParques.setOnClickListener {
+            getListaParques()
+        }
 
     }
 
@@ -63,23 +76,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                return
+            }
             return
         }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                // Got last known location. In some rare situations this can be null.
+        mMap.isMyLocationEnabled = true
+
+        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+            if (location != null) {
+                lastLocation = location
+                val currenteLatLng = LatLng(location.latitude, location.longitude)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currenteLatLng, 10f))
             }
-        // Add a marker in Sydney and move the camera
-       // val sydney = LatLng(-34.0, 151.0)
-        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        }
+        createLocationRequest()
 
     }
 
@@ -110,29 +130,39 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
              *  Se for fora desta função a lista está vazia.
              *  */
 
-            for ( i in parques){
-            val zone = LatLng(41.69569, -8.82771)
-            val zoomLevel = 1000f
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zone, zoomLevel))
-            Log.d("marcos", "aqui"+ i.toString())
-            var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude)
-            if (i.livre != true ) {
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(posicao)
-                        .title(i.nome)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-                )
-            } else {
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(posicao)
-                        .title(i.nome)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            for (i in parques) {
 
-                )
+                Log.d("marcos", "aqui" + i.toString())
+                var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude)
+                if (i.livre != true) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 10f))
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(posicao)
+                            .title(i.nome)
+                            .snippet("Estado do parque:" + i.livre)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    )
+                } else {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 10f))
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(posicao)
+                            .title(i.nome)
+                            .snippet("Estado do parque:" + i.livre)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+
+                    )
+                }
+
             }
         }
-        }
+    }
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest()
+
+        locationRequest.interval = 1000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 }
