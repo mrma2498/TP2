@@ -10,9 +10,6 @@ data class Loja(
     val email: String,
     val password: String,
     val produtos: List<Produto>
-    //val produto1: Boolean
-   // val produto2: Map<String,Produto>,
-    //val produto3: Map<String,Produto>
 
 )
 

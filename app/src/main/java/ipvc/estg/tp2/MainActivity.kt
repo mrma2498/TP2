@@ -2,8 +2,12 @@ package ipvc.estg.tp2
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsets.Side.all
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ipvc.estg.tp2.model.Loja
@@ -38,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     private fun getListaLojas(){
 
 
-
         val docs = Firebase.firestore.collection("lojas")
 
 
@@ -68,9 +71,9 @@ class MainActivity : AppCompatActivity() {
 
                 if (disponivel != null && nome != null && disponivel2 != null && nome2 != null && disponivel3 != null && nome3 != null) {
 
-                    val p1 = Produto(1,nome,disponivel)
-                    val p2 = Produto(2,nome2,disponivel2)
-                    val p3 = Produto(3,nome3,disponivel3)
+                    val p1 = Produto(nome,disponivel)
+                    val p2 = Produto(nome2,disponivel2)
+                    val p3 = Produto(nome3,disponivel3)
 
                     val produtos: List<Produto> = listOf(p1,p2,p3)
 
@@ -86,7 +89,14 @@ class MainActivity : AppCompatActivity() {
                 lojas += loja
                 }
             }
-            Log.d("TAG",lojas.toString())
+            for (l in lojas){
+                Log.d("TAG",l.toString() + "\n")
+            }
+
+            /**Inserir lojas no mapa a partir daqui
+             *
+             *
+             * */
 
 
         }
@@ -118,7 +128,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //Adicionar return lista e fazer
     private fun getProdutosPorLoja(idloja: Int) {
 
         val docs = Firebase.firestore.collection("lojas").document(idloja.toString()).collection("produtos")
@@ -128,7 +137,6 @@ class MainActivity : AppCompatActivity() {
 
             for (documento in snapshot!!.documents){
                 val produto = Produto(
-                    documento.id.toInt(),
                     "${documento.data?.get("nome")}",
                     documento.data?.getValue("disponivel") as Boolean
 
@@ -151,7 +159,6 @@ class MainActivity : AppCompatActivity() {
 
             for (documento in snapshot!!.documents){
                 val produto = Produto(
-                    documento.id.toInt(),
                     "${documento.data?.get("nome")}",
                     documento.data?.getValue("disponivel") as Boolean
 
@@ -198,6 +205,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
     }
 
 
@@ -206,4 +214,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
 }
+
