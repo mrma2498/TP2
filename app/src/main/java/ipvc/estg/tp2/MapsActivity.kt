@@ -99,15 +99,50 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val location3 = LatLng(13.029727, 77.5933021)
         mMap.addMarker(MarkerOptions().position(location3).title("Bangalore"))
+        var waypoints = ArrayList<LatLng>()
+        //waypoints.add(0, location3)
 
-        val URL = getDirectionURL(location1, location2)
+
+        val URL = getDirectionURL(location1, location2,waypoints)
         GetDirection(URL).execute()
     }
+// funcao para obter o url da API Directions
+    fun getDirectionURL(origin:LatLng,dest:LatLng, waypoints: ArrayList<LatLng>) : String{
 
-    fun getDirectionURL(origin:LatLng,dest:LatLng) : String{
+        var waypointsURL = ArrayList<String>()
+        for(i in 0..waypoints.size-1){
+
+            waypointsURL.add("via:${waypoints[i].latitude},${waypoints[i].longitude}")
+
+            Log.d("CCCwaypoint", waypointsURL[i])
+
+        }
+
+        //obter url dos waypoints
+
+        var waypointsUrlFinal: String
+
+        if(waypointsURL.isNotEmpty()) {
+            waypointsUrlFinal = waypointsURL.joinToString(
+                separator = ",",
+                prefix = "&waypoints="
+            )
+            Log.d("CCCwaypoints", "$waypointsUrlFinal")
+        } else {
+            waypointsUrlFinal = "null"
+        }
+
+
         Log.d("CCCorigin", " ${origin.latitude}, ${origin.longitude}")
         Log.d("CCCdestination", " ${dest.latitude}, ${dest.longitude}")
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&waypoints=via:13.029727,77.5933021&sensor=false&mode=driving&key=AIzaSyDs95Q8wVFlwO1pVFJ7gxR-XnpFLKpUGMQ"
+
+    //verificar se existem waypoints
+        if(waypointsUrlFinal == "null"){
+            return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&mode=driving&key=AIzaSyDs95Q8wVFlwO1pVFJ7gxR-XnpFLKpUGMQ"
+        } else {
+            return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}$waypointsUrlFinal&sensor=false&mode=driving&key=AIzaSyDs95Q8wVFlwO1pVFJ7gxR-XnpFLKpUGMQ"
+        }
+
     }
 
     private inner class GetDirection(val url : String) : AsyncTask<Void,Void,List<List<LatLng>>>(){
@@ -242,7 +277,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener(this) { location->
                 if(location != null) {
                     lastLocation = location
-                    Toast.makeText(this@MapsActivity, lastLocation.toString(), Toast.LENGTH_SHORT).show()
+
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
                 }
