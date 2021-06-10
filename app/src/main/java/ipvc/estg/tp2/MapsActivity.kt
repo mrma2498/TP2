@@ -31,7 +31,13 @@ import kotlin.collections.ArrayList
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
+    private lateinit var location1:LatLng
+    private lateinit var location2:LatLng
+    private lateinit var location3:LatLng
+    var waypoints = ArrayList<LatLng>()
+    private var myLat = 0.0
+    private var myLongi = 0.0
+    private var minhaLocalizacao = LatLng(0.2,0.2)
     private lateinit var mMap: GoogleMap
 
 
@@ -49,6 +55,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+
+
         //inicialização fusedLocationClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -59,8 +67,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
                 LocationChanged(lastLocation)
 
+                myLat = lastLocation.latitude
+                myLongi = lastLocation.longitude
 
 
+                Log.d("mycoord", "$myLat, $myLongi")
 
 
 
@@ -90,21 +101,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //mMap.isMyLocationEnabled = true
 
-        val location1 = LatLng(13.0356745, 77.5881522)
+        location1 = LatLng(13.0356745, 77.5881522)
         mMap.addMarker(MarkerOptions().position(location1).title("My location"))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 5f))
 
-        val location2 = LatLng(9.89, 78.11)
+        location2 = LatLng(41.6987, -8.8214)
         mMap.addMarker(MarkerOptions().position(location2).title("Madurai"))
 
-        val location3 = LatLng(13.029727, 77.5933021)
+        location3 = LatLng(13.029727, 77.5933021)
         mMap.addMarker(MarkerOptions().position(location3).title("Bangalore"))
-        var waypoints = ArrayList<LatLng>()
-        //waypoints.add(0, location3)
+
+        //Exemplos
+        mMap.addMarker(MarkerOptions().position(LatLng(41.6941,-8.8203)).title("Rio"))
+        mMap.addMarker(MarkerOptions().position(LatLng(41.6955,-8.8380)).title("rua"))
+
+        //exemplos waypoints
+        waypoints.add(0, LatLng(41.6955,-8.8380))
+        waypoints.add(1, LatLng(41.6941,-8.8203))
 
 
-        val URL = getDirectionURL(location1, location2,waypoints)
-        GetDirection(URL).execute()
+
+
+        Log.d("mycoordMap", "$minhaLocalizacao")
+
+
     }
 // funcao para obter o url da API Directions
     fun getDirectionURL(origin:LatLng,dest:LatLng, waypoints: ArrayList<LatLng>) : String{
@@ -124,10 +144,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(waypointsURL.isNotEmpty()) {
             waypointsUrlFinal = waypointsURL.joinToString(
-                separator = ",",
+                separator = "|via:",
                 prefix = "&waypoints="
             )
-            Log.d("CCCwaypoints", "$waypointsUrlFinal")
+            Log.d("CCCwaypointsF", waypointsUrlFinal)
         } else {
             waypointsUrlFinal = "null"
         }
@@ -280,6 +300,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                    minhaLocalizacao = currentLatLng
+                    val URL = getDirectionURL(minhaLocalizacao, location2,waypoints)
+                    GetDirection(URL).execute()
+                    Log.d("URL", URL)
+                    Log.d("CCCsetup", "$minhaLocalizacao")
                 }
             }
         }
