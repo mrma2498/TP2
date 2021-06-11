@@ -150,6 +150,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .snippet("Estado do parque:" + i.livre)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                     )
+
                     mMap.setOnMapLongClickListener(OnMapLongClickListener { latLng ->
                             if (Math.abs(posicao.latitude - latLng.latitude) < 0.05 && Math.abs(
                                     posicao.longitude - latLng.longitude
