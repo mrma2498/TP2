@@ -1,23 +1,21 @@
 package ipvc.estg.tp2
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -25,10 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import io.grpc.InternalChannelz.id
 import ipvc.estg.tp2.model.Loja
 import ipvc.estg.tp2.model.Parque
 import ipvc.estg.tp2.model.Produto
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -128,7 +126,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     documento.id.toInt(),
                     "${documento.data?.get("nome")}",
                     documento.data?.getValue("localizacao") as GeoPoint,
-                    documento.data?.getValue("livre") as Boolean
+                    documento.data?.getValue("livre") as Long
 
                 )
                 parques += parque
@@ -140,10 +138,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
              *  */
 
             for (i in parques) {
-
-                Log.d("marcos", "aqui" + i.toString())
+                var teste = 0
                 var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude)
-                if (i.livre != true) {
+                if (i.livre != teste.toLong()) {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 10f))
                     mMap.addMarker(
                         MarkerOptions()
@@ -152,6 +149,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .snippet("Estado do parque:" + i.livre)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                     )
+                    mMap.setOnMapLongClickListener(OnMapLongClickListener { latLng ->
+                            if (Math.abs(posicao.latitude - latLng.latitude) < 0.05 && Math.abs(
+                                    posicao.longitude - latLng.longitude
+                                ) < 0.05
+                            ) {
+                                Log.d("marcos", "got clicked "+ i.nome)
+                                //criar a rota aqui
+                            }
+                    })
                 } else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 10f))
                     mMap.addMarker(
@@ -162,6 +168,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
                     )
+                    mMap.setOnMapLongClickListener(OnMapLongClickListener { latLng ->
+                        if (Math.abs(posicao.latitude - latLng.latitude) < 0.05 && Math.abs(
+                                posicao.longitude - latLng.longitude
+                            ) < 0.05
+                        ) {
+                            Log.d("marcos", "got clicked "+i.nome)
+                            //criar a rota aqui
+                        }
+                    })
                 }
 
             }
