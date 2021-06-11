@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        getListaLojas()
+        //getListaLojas()
+        getListaParques()
 
 
 
@@ -118,10 +119,11 @@ class MainActivity : AppCompatActivity() {
                         documento.id.toInt(),
                         "${documento.data?.get("nome")}",
                         documento.data?.getValue("localizacao") as GeoPoint,
-                        documento.data?.getValue("livre") as Boolean
+                        documento.data?.getValue("livre") as Long
 
                 )
                 parques += parque
+                Log.d("Maria",parques.toString())
             }
 
         }

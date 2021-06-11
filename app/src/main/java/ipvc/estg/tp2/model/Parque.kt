@@ -7,5 +7,5 @@ data class Parque (
     val id: Int,
     val nome: String,
     val localizacao: GeoPoint,
-    val livre: Boolean
+    val livre: Long
 )
