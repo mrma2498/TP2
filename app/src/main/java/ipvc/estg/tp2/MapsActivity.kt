@@ -6,31 +6,31 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.beust.klaxon.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.protobuf.Parser
 import ipvc.estg.tp2.model.Loja
 import ipvc.estg.tp2.model.Parque
 import ipvc.estg.tp2.model.Produto
-import java.net.URL
-import org.jetbrains.anko.uiThread
-import com.beust.klaxon.*
-import com.google.android.gms.maps.model.*
 import org.jetbrains.anko.async
+import org.jetbrains.anko.uiThread
+import java.net.URL
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -79,7 +79,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        // declare bounds object to fit whole route in screen
         //-----------------------------------------------------------------------------
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -104,6 +103,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
         mMap.isMyLocationEnabled = true
+
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             if (location != null) {
                 lastLocation = location
@@ -157,8 +157,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .title(i.nome)
                             .snippet("Estado do parque:" + i.livre)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                    )
 
+                    )
 
                 } else if (i.livre != teste.toLong()) {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 10f))
@@ -178,14 +178,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             i.localizacao.longitude - latLng.longitude
                         ) < 0.05
                     ) {
-                            Log.d(
-                                "marcos",
-                                "Long Click latitude: " + latLng.latitude + " longitude: " + latLng.longitude
-                            )
-                            var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude) //---> só da a da ESE porque é o ultimo elemento do for
-                            val inicio = currenteLatLng
-                            val destino = latLng
-                            rota(inicio, destino)
+                        Log.d(
+                            "marcos",
+                            "Long Click latitude: " + latLng.latitude + " longitude: " + latLng.longitude
+                        )
+                        var posicao = LatLng(
+                            i.localizacao.latitude,
+                            i.localizacao.longitude
+                        ) //---> só da a da ESE porque é o ultimo elemento do for
+                        val inicio = currenteLatLng
+                        val destino = posicao //--> so a ese
+                        //val destino = latLng //--> todos mas um bocado ao lado
+                        rota(inicio, destino)
                     }
                 }
             }
@@ -238,6 +242,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    //api
     private fun getURL(from: LatLng, to: LatLng): String {
         val origin = "origin=" + from.latitude + "," + from.longitude
         val dest = "destination=" + to.latitude + "," + to.longitude
@@ -397,4 +402,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     }
+
 }
