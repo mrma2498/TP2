@@ -182,9 +182,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 "marcos",
                                 "Long Click latitude: " + latLng.latitude + " longitude: " + latLng.longitude
                             )
-                            var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude)
+                            var posicao = LatLng(i.localizacao.latitude, i.localizacao.longitude) //---> só da a da ESE porque é o ultimo elemento do for
                             val inicio = currenteLatLng
-                            val destino = posicao
+                            val destino = latLng
                             rota(inicio, destino)
                     }
                 }
