@@ -88,10 +88,10 @@ class ListaProdutos : AppCompatActivity() {
                 listaProds.add("Laranjas")
             }
             if (limoes.isChecked) {
-                listaProds.add("Limoes")
+                listaProds.add("Limões")
             }
             if (macas.isChecked) {
-                listaProds.add("Macas")
+                listaProds.add("Maçãs")
             }
 
 
@@ -111,6 +111,7 @@ class ListaProdutos : AppCompatActivity() {
 
     private fun getListaLojas(Lista: ArrayList<String>) {
 
+        var produtosEncontrados = ArrayList<String>()
 
         val docs = Firebase.firestore.collection("lojas")
 
@@ -159,7 +160,7 @@ class ListaProdutos : AppCompatActivity() {
                     lojas += loja
                 }
             }
-            do{     for (lojas in lojas) {
+          for (lojas in lojas) {
                Log.d("TAG", lojas.produtos.toString() + "\n")
 
                 for(i in 0 .. lojas.produtos.size-1) {
@@ -168,16 +169,24 @@ class ListaProdutos : AppCompatActivity() {
                     for(produto in Lista){
                         Log.d("TOG", produto + lojas.produtos[i].nome)
                         if(produto == lojas.produtos[i].nome ){
-                            Lista.remove(produto)
-                            finalLojas.add(lojas)
-
+                            if(produtosEncontrados.contains(produto)) {
+                               Log.d("TAG", "Ja foi encontrada uma loja para esse produto")
+                            }else{
+                                Log.d("OLE", produto)
+                                produtosEncontrados.add(produto)
+                                finalLojas.add(lojas)
+                                Log.d("OLE", lojas.toString() + "\n")
+                            }
                         }
 
                     }
                 }
-            }}while(Lista.isNotEmpty())
-            Log.d("ola", finalLojas.toString() +"\n" )
+            }
+
+
         }
+
+
 
     }
 }
