@@ -22,6 +22,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val bntProduto = findViewById<Button>(R.id.pagProdutos)
+        bntProduto.setOnClickListener {
+            val intent = Intent(this@MainActivity, ListaProdutos::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }
