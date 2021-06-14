@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.Location.distanceBetween
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -65,7 +66,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
-                LocationChanged(lastLocation)
+
 
                 myLat = lastLocation.latitude
                 myLongi = lastLocation.longitude
@@ -298,7 +299,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
                     minhaLocalizacao = currentLatLng
+
+                    //calcular distancia
+                    var results = FloatArray(1)
+                    distanceBetween(myLat, myLongi, 41.6941,-8.8203, results)
+                    var distance = results[0]
+                    var kilometer = distance/1000
+                    Log.d("renato", distance.toString())
+                    //////////////////////////////////////////
+
+
+
                     val URL = getDirectionURL(minhaLocalizacao, location2,waypoints)
+
+
+
                     GetDirection(URL).execute()
                     Log.d("URL", URL)
                     Log.d("CCCsetup", "$minhaLocalizacao")
@@ -313,29 +328,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
-    public fun setAddress(adress: Address) {
-        if(adress != null) {
-            if(adress.getAddressLine(0) != null) {
-                Log.d("LLL", ""+ adress.getAddressLine(0) +"")
 
-            }
-            if(adress.getAddressLine(1) != null) {
-                Log.d("LLL", ""+ adress.getAddressLine(1) +"")
-
-            }
-        }
-    }
-
-    private fun LocationChanged(p0: Location) {
-        Log.d("LLL", "changed!!")
-
-        var geoCoder = Geocoder(this, Locale.getDefault())
-        var Adress: List<Address>? = null
-
-        try{
-            Adress = geoCoder.getFromLocation(p0.latitude, p0.longitude,1)
-        }catch (e: IOException) {
-            e.printStackTrace()}
-        setAddress(Adress!![0])
-    }
 }
