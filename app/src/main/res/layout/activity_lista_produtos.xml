@@ -23,7 +23,7 @@
     <CheckBox android:id="@+id/carne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="alface"
+        android:text="carne"
         />
 
     <CheckBox android:id="@+id/peixe"
