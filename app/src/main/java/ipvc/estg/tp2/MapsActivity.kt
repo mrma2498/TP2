@@ -1,12 +1,12 @@
 package ipvc.estg.tp2
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.beust.klaxon.*
@@ -30,7 +30,7 @@ import org.jetbrains.anko.uiThread
 import java.net.URL
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -79,6 +79,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
         //-----------------------------------------------------------------------------
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -166,48 +167,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                         MarkerOptions()
                             .position(posicao)
                             .title(i.nome)
-                            .snippet("Estado do parque:" + i.livre)
+                            .snippet("Estado do parque:" + i.livre )
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
                     )
                 }
             }
-            for (i in parques) {
-                mMap.setOnMapLongClickListener { latLng ->
-                    if (Math.abs(i.localizacao.latitude - latLng.latitude) < 0.05 && Math.abs(
-                            i.localizacao.longitude - latLng.longitude
-                        ) < 0.05
-                    ) {
-                        Log.d(
-                            "marcos",
-                            "Long Click latitude: " + latLng.latitude + " longitude: " + latLng.longitude
-                        )
-                        var posicao = LatLng(
-                            i.localizacao.latitude,
-                            i.localizacao.longitude
-                        ) //---> só da a da ESE porque é o ultimo elemento do for
-                        val inicio = currenteLatLng
-                        val destino = posicao //--> so a ese
-                        //val destino = latLng //--> todos mas um bocado ao lado
-                        rota(inicio, destino)
-                    }
-                }
-            }
 
+            mMap.setOnInfoWindowClickListener { marker ->
+                val inicio = currenteLatLng
+                val destino = marker.position
+                mMap.clear()
+                getListaParques()
+                rota(inicio, destino)
+            }
         }
     }
+
 
     private fun rota(inicioInicial: LatLng, destinoFinal: LatLng) {
         val LatLongB = LatLngBounds.Builder()
         val inicio = LatLng(inicioInicial.latitude, inicioInicial.longitude)
-        val destino = LatLng(destinoFinal.latitude, destinoFinal.longitude)
-        mMap!!.addMarker(MarkerOptions().position(inicio).title("Saida"))
-        // Declare polyline object and set up color and width
+            val destino = LatLng(destinoFinal.latitude, destinoFinal.longitude)
+            mMap!!.addMarker(MarkerOptions().position(inicio).title("Saida"))
+// Declare polyline object and set up color and width
         val options = PolylineOptions()
+
         options.color(Color.BLUE)
         options.width(5f)
 
-        // build URL to call API
+// build URL to call API
         val url = getURL(inicio, destino)
 
         async {
