@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -64,9 +65,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
+
         getListaLojas()
 
     }
+
 
     /**
      * Manipulates the map once available.
@@ -114,6 +117,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         createLocationRequest()
+
     }
 
 
