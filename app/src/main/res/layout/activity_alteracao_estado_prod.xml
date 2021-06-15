@@ -10,49 +10,82 @@
         android:id="@+id/nomeLoja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:text="nomeloja"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true" />
 
 
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/emailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:text="Email:"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_below="@id/nomeLoja"/>
+
+
+    <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:text="cenas"
+        android:text="email"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_below="@id/nomeLoja"/>
+        android:textSize="15sp"
+        android:layout_toRightOf="@id/emailTitle"
+        android:layout_alignBaseline="@id/emailTitle"/>
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="100dp"
+        android:text="Editar estado dos produtos:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/email"/>
 
     <CheckBox
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Pizza" />
+        android:layout_below="@id/info"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:text="Produto1" />
     <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBox1"
-        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="Coffee" />
+        android:textSize="20dp"
+
+        android:text="Produto2" />
     <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBox2"
-        android:layout_centerInParent="true"
+        android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:text="Burger" />
-
-
+        android:layout_marginLeft="10dp"
+        android:text="Produto3" />
 
 
     <Button
@@ -60,10 +93,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:text="Guardar"
         android:textColorLink="#00FFFFFF"
-        app:backgroundTint="#FCA656"
+        app:backgroundTint="#2196F3"
         app:iconTint="#FFFFFF" />
 
 

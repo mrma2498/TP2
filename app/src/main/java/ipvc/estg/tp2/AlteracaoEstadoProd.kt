@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firestore.v1.WriteResult
 import ipvc.estg.tp2.model.Loja
 import ipvc.estg.tp2.model.Produto
 
@@ -29,15 +28,15 @@ class AlteracaoEstadoProd : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alteracao_estado_prod)
 
-        getLoja()
+        getLoja(1)
 
 
     }
 
-    private fun getLoja() {
+    private fun getLoja(idLoja: Int) {
 
 
-        val docs = Firebase.firestore.collection("lojas").document(1.toString())
+        val docs = Firebase.firestore.collection("lojas").document(idLoja.toString())
 
 
         docs.addSnapshotListener { snapshot, e ->
@@ -85,12 +84,16 @@ class AlteracaoEstadoProd : AppCompatActivity() {
 
                     val nomeLoja = findViewById<TextView>(R.id.nomeLoja)
 
+                    val emailLoja = findViewById<TextView>(R.id.email)
+
                     val checkBox1 = findViewById<CheckBox>(R.id.checkBox1)
                     val checkBox2 = findViewById<CheckBox>(R.id.checkBox2)
                     val checkBox3 = findViewById<CheckBox>(R.id.checkBox3)
                     val button = findViewById<Button>(R.id.button_save)
 
-                    nomeLoja.text = loja.nome
+                    nomeLoja.text = "Loja " + loja.nome
+                    emailLoja.text = loja.email
+
                     checkBox1.text = loja.produtos[0].nome
                     checkBox2.text = loja.produtos[1].nome
                     checkBox3.text = loja.produtos[2].nome
