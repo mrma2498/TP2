@@ -1,23 +1,17 @@
 package ipvc.estg.tp2
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Toast
-import android.view.WindowInsets.Side.all
-import com.google.android.gms.tasks.Task
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.GeoPoint
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ipvc.estg.tp2.model.Loja
-import ipvc.estg.tp2.model.Parque
 import ipvc.estg.tp2.model.Produto
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ListaProdutos : AppCompatActivity() {
@@ -130,13 +124,13 @@ class ListaProdutos : AppCompatActivity() {
                 val docMap2: Map<String, *>? = documento.data?.get("produto2") as? Map<String, *>
 
                 val nome2: String? = docMap2?.get("nome") as? String
-                val disponivel2: Boolean? = docMap?.get("disponivel") as? Boolean
+                val disponivel2: Boolean? = docMap2?.get("disponivel") as? Boolean
 
 
                 val docMap3: Map<String, *>? = documento.data?.get("produto3") as? Map<String, *>
 
                 val nome3: String? = docMap3?.get("nome") as? String
-                val disponivel3: Boolean? = docMap?.get("disponivel") as? Boolean
+                val disponivel3: Boolean? = docMap3?.get("disponivel") as? Boolean
 
 
 
@@ -161,7 +155,7 @@ class ListaProdutos : AppCompatActivity() {
                 }
             }
           for (lojas in lojas) {
-               Log.d("TAG", lojas.produtos.toString() + "\n")
+               Log.d("TAG", lojas.toString() + "\n")
 
                 for(i in 0 .. lojas.produtos.size-1) {
 
@@ -174,8 +168,13 @@ class ListaProdutos : AppCompatActivity() {
                             }else{
                                 Log.d("OLE", produto)
                                 produtosEncontrados.add(produto)
-                                finalLojas.add(lojas)
-                                Log.d("OLE", lojas.toString() + "\n")
+                                if(finalLojas.contains(lojas)){
+                                    Log.d("OLE", "loja ja adicionada" + lojas.id.toString())
+                                }else{
+                                    finalLojas.add(lojas)
+                                    Log.d("OLE", lojas.id.toString() + "\n")
+                                }
+
                             }
                         }
 
@@ -183,6 +182,9 @@ class ListaProdutos : AppCompatActivity() {
                 }
             }
 
+            val intent = Intent(this@ListaProdutos, MapsActivity::class.java)
+            intent.putExtra("key", finalLojas)
+            startActivity(intent)
 
         }
 

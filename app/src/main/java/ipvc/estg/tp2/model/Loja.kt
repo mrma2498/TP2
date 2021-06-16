@@ -2,6 +2,7 @@ package ipvc.estg.tp2.model
 
 import com.google.firebase.firestore.GeoPoint
 
+
 data class Loja(
 
     val id: Int,

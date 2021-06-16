@@ -2,18 +2,14 @@ package ipvc.estg.tp2
 
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.Location.distanceBetween
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,11 +20,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
-import java.io.IOException
-import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
-
+import ipvc.estg.tp2.model.Loja
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -56,7 +48,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
+        val numbersList = intent.getSerializableExtra("key") as ArrayList<Loja>?
+        Log.d("teste", numbersList.toString())
 
         //inicialização fusedLocationClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
