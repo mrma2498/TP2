@@ -26,15 +26,10 @@ class Login : AppCompatActivity() {
             val email = findViewById<EditText>(R.id.emailEdit)
             val password = findViewById<EditText>(R.id.passwordEdit)
 
-            Log.d("MARIA", email.text.toString() + password.text.toString())
 
-
-            //val docs = Firebase.firestore.collection("lojas").whereEqualTo("email",email.text.toString()).whereEqualTo("password",password.text.toString())
-
-            val docs = Firebase.firestore.collection("lojas").whereEqualTo("email","srantonio@gmail.com").whereEqualTo("password","antonio661")
+            val docs = Firebase.firestore.collection("lojas").whereEqualTo("email",email.text.toString()).whereEqualTo("password",password.text.toString())
 
             val lojas = mutableListOf<CredenciaisLoja>()
-
 
 
             docs.addSnapshotListener { snapshot, e ->
@@ -50,28 +45,23 @@ class Login : AppCompatActivity() {
 
                         )
                         lojas+=loja
-                    Log.d("MARIA", lojas.toString())
 
-
-                    if (lojas.isEmpty()){
-                        Toast.makeText(this, "Loja não registada!",Toast.LENGTH_SHORT).show()
-                    } else {
+                        Log.d("MARIA", lojas.toString())
 
                         Log.d("MARIA", "Login com sucesso")
 
                         val intent = Intent(this@Login, AlteracaoEstadoProd::class.java)
-
                         intent.putExtra("idLoja",lojas[0].id)
-
 
                         startActivity(intent)
 
-
                     }
 
+                if (lojas.isEmpty()){
+                    Toast.makeText(this, "Loja não registada!",Toast.LENGTH_SHORT).show()
+                    Log.d("MARIA", "Loja nao registada")
+
                 }
-
-
 
 
             }

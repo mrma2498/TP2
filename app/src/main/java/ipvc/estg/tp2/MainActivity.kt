@@ -36,13 +36,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val bntAlteracao = findViewById<Button>(R.id.pagAlteracao)
-        bntAlteracao.setOnClickListener {
-            val intent = Intent(this@MainActivity, AlteracaoEstadoProd::class.java)
-            startActivity(intent)
-        }
-
-
 
     }
 
