@@ -1,5 +1,6 @@
 package ipvc.estg.tp2
 
+
 class GoogleMapDTO {
     var routes = ArrayList<Routes>()
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <CheckBox android:id="@+id/batatas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="batatas"
+        />
+    <CheckBox android:id="@+id/alface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="alface"
+        />
+
+    <CheckBox android:id="@+id/tomates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tomates"
+       />
+    <CheckBox android:id="@+id/carne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="carne"
+        />
+
+    <CheckBox android:id="@+id/peixe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="peixe"
+       />
+    <CheckBox android:id="@+id/ovos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="alface"
+        />
+
+    <CheckBox android:id="@+id/cenouras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="batatas"
+        />
+    <CheckBox android:id="@+id/ervilhas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="alface"
+        />
+    <CheckBox android:id="@+id/laranjas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="laranjas"
+        />
+    <CheckBox android:id="@+id/limoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="limões"
+        />
+    <CheckBox android:id="@+id/macas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="maças"
+       />
+    <Button android:id="@+id/compras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comprar"
+
+        />
+
+
+
+
+</LinearLayout>
