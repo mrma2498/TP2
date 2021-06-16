@@ -1,11 +1,15 @@
 package ipvc.estg.tp2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
@@ -17,18 +21,26 @@ import ipvc.estg.tp2.model.Produto
 class AlteracaoEstadoProd : AppCompatActivity() {
 
 
-    //ID loja
-    val idLoja = Int
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alteracao_estado_prod)
 
-        getLoja(1)
+        val idLoja = intent.getIntExtra("idLoja",0)
+
+
+        getLoja(idLoja)
+
+
+        val buttonLogout = findViewById<Button>(R.id.logout)
+
+        buttonLogout.setOnClickListener {
+
+            val intent = Intent(this@AlteracaoEstadoProd, MainActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
@@ -110,7 +122,7 @@ class AlteracaoEstadoProd : AppCompatActivity() {
                         var estado2: Boolean = checkBox2.isChecked
                         var estado3: Boolean = checkBox3.isChecked
 
-                        val docRef: DocumentReference = Firebase.firestore.collection("lojas").document(1.toString())
+                        val docRef: DocumentReference = Firebase.firestore.collection("lojas").document(idLoja.toString())
                         docRef.update(mapOf("produto1.disponivel" to estado1))
                         docRef.update(mapOf("produto2.disponivel" to estado2))
                         docRef.update(mapOf("produto3.disponivel" to estado3))
@@ -124,6 +136,15 @@ class AlteracaoEstadoProd : AppCompatActivity() {
 
 
         }
+
+
+    override fun onBackPressed() {
+
+        Toast.makeText(this, "Tem de fazer logout!", Toast.LENGTH_SHORT).show()
+        //Ou mandar para a pagina inicial em vez do login?
+    }
+
+
 
 
 
