@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:contentDescription="Ver Parques"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_shopping_cart_black_24dp"
             app:backgroundTint="#0296c7"
             app:tint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnParques"

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val bntMapa = findViewById<Button>(R.id.pagMap)
         bntMapa.setOnClickListener {
-            val intent = Intent(this@MainActivity, MapsActivity::class.java)
+            val intent = Intent(this@MainActivity, ListaProdutos::class.java)
             startActivity(intent)
         }
 

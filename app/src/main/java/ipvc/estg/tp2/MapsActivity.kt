@@ -121,7 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             if (location != null) {
                 lastLocation = location
                 currenteLatLng = LatLng(location.latitude, location.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currenteLatLng, 10f))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currenteLatLng, 16f))
 
             }
         }
