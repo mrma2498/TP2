@@ -1,5 +1,6 @@
 package ipvc.estg.tp2
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.GeoPoint
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
@@ -81,6 +83,18 @@ class RotasActivity : AppCompatActivity(), OnMapReadyCallback {
 
         pontos = intent.getSerializableExtra("key") as ArrayList<Float>
         Log.d("teste!", pontos.toString())
+
+        val fabverParques = findViewById<FloatingActionButton>(R.id.btnParques)
+        fabverParques.setOnClickListener {
+            val intent = Intent(this@RotasActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
+        val fabverProdutos = findViewById<FloatingActionButton>(R.id.btnProdutos)
+        fabverProdutos.setOnClickListener {
+            val intent = Intent(this@RotasActivity, ListaProdutos::class.java)
+            startActivity(intent)
+        }
     }
 
     /**

@@ -59,10 +59,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
-        val fabverParques = findViewById<FloatingActionButton>(R.id.btnVerParques)
+        val fabverParques = findViewById<FloatingActionButton>(R.id.btnParques)
         fabverParques.setOnClickListener {
             getListaParques()
         }
+
+        getListaParques()
+
+        val fabverProdutos = findViewById<FloatingActionButton>(R.id.btnProdutos)
+        fabverProdutos.setOnClickListener {
+            val intent = Intent(this@MapsActivity, ListaProdutos::class.java)
+            startActivity(intent)
+        }
+
 
 
 

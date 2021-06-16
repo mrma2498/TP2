@@ -18,13 +18,13 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnAddProdutos"
+            android:id="@+id/btnParques"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="24dp"
             android:contentDescription="Ver Produtos"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_launcher_parque"
             app:backgroundTint="#0296c7"
             app:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,16 +32,16 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnVerParques"
+            android:id="@+id/btnProdutos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:contentDescription="Ver Parques"
-            android:src="@drawable/ic_launcher_parque"
+            android:src="@drawable/ic_launcher_background"
             app:backgroundTint="#0296c7"
             app:tint="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddProdutos"
-            app:layout_constraintEnd_toEndOf="@id/btnAddProdutos"/>
+            app:layout_constraintBottom_toTopOf="@+id/btnParques"
+            app:layout_constraintEnd_toEndOf="@id/btnParques"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
