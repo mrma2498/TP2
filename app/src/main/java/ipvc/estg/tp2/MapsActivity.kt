@@ -25,6 +25,11 @@ import ipvc.estg.tp2.model.Loja
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    var pontos = ArrayList<Float>()
+    var waypointsFinal = ArrayList<LatLng>()
+    var destino = LatLng(0.0,0.0)
+
     private lateinit var location1:LatLng
     private lateinit var location2:LatLng
     private lateinit var location3:LatLng
@@ -49,8 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val numbersList = intent.getSerializableExtra("key") as ArrayList<Float>
-        Log.d("teste", numbersList[0].toString())
+
 
         //inicialização fusedLocationClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -74,6 +78,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         createLocationRequest()
+
+        pontos = intent.getSerializableExtra("key") as ArrayList<Float>
+        Log.d("teste!", pontos.toString())
     }
 
     /**
@@ -93,23 +100,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //mMap.isMyLocationEnabled = true
 
-        location1 = LatLng(13.0356745, 77.5881522)
-        mMap.addMarker(MarkerOptions().position(location1).title("My location"))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1, 5f))
 
-        location2 = LatLng(41.6987, -8.8214)
-        mMap.addMarker(MarkerOptions().position(location2).title("Madurai"))
-
-        location3 = LatLng(13.029727, 77.5933021)
-        mMap.addMarker(MarkerOptions().position(location3).title("Bangalore"))
-
-        //Exemplos
-        mMap.addMarker(MarkerOptions().position(LatLng(41.6941,-8.8203)).title("Rio"))
-        mMap.addMarker(MarkerOptions().position(LatLng(41.6955,-8.8380)).title("rua"))
 
         //exemplos waypoints
-        waypoints.add(0, LatLng(41.6955,-8.8380))
-        waypoints.add(1, LatLng(41.6941,-8.8203))
+
 
 
 
@@ -303,8 +297,59 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     //////////////////////////////////////////
 
 
+                    fun getPontos(pontos: ArrayList<Float>):ArrayList<LatLng>{
+                        var listaPontos = ArrayList<LatLng>()
+                        var pontoLat = 0.0
+                        var pontoLong = 0.0
 
-                    val URL = getDirectionURL(minhaLocalizacao, location2,waypoints)
+                        for(i in 0 .. pontos.size-1){
+                            if((i % 2) == 0){
+                                pontoLat = pontos[i].toDouble()
+                            }else{
+                                pontoLong = pontos[i].toDouble()
+                                var point = LatLng(pontoLat,pontoLong)
+                                listaPontos.add(point)
+                            }
+                        }
+
+                        Log.d("testeArray", listaPontos.toString())
+                        return listaPontos
+                    }
+
+                    var arrayPontos = getPontos(pontos)
+
+                    fun getDistance(pontos: ArrayList<LatLng>): Int{
+                        var arrayDist = ArrayList<Float>()
+                        for(ponto in pontos){
+                            var results = FloatArray(1)
+                            distanceBetween(myLat, myLongi, ponto.latitude,ponto.longitude, results)
+                            var distance = results[0]
+                            var kilometer = distance/1000
+
+                            arrayDist.add(distance)
+                            Log.d("testeDistan", distance.toString())
+                        }
+
+
+                        val maxIdx = arrayDist.indices.maxBy { arrayDist[it] } ?: -1
+                        Log.d("testeMAX", maxIdx.toString())
+
+                        return maxIdx
+
+                    }
+
+                    var destinoId = getDistance(arrayPontos)
+                    destino = arrayPontos[destinoId]
+                    arrayPontos.removeAt(destinoId)
+                    waypointsFinal = arrayPontos
+
+                    for(waypoint in waypointsFinal){
+                        mMap.addMarker(MarkerOptions().position(waypoint))
+                    }
+
+                    mMap.addMarker(MarkerOptions().position(destino))
+
+                    val URL = getDirectionURL(minhaLocalizacao, destino,waypointsFinal)
 
 
 

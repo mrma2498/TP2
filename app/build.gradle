@@ -2,9 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
-
 }
-apply plugin: 'org.jetbrains.kotlin.android.extensions'
+
 android {
     signingConfigs {
         release {
@@ -41,9 +40,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    androidExtensions {
-        experimental = true
-    }
 }
 
 dependencies {
@@ -63,5 +59,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-
 }
