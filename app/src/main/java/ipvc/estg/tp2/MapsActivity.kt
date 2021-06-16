@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.firestore.GeoPoint
 import com.google.gson.Gson
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -48,8 +49,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val numbersList = intent.getSerializableExtra("key") as ArrayList<Loja>?
-        Log.d("teste", numbersList.toString())
+        val numbersList = intent.getSerializableExtra("key") as ArrayList<Float>
+        Log.d("teste", numbersList[0].toString())
 
         //inicialização fusedLocationClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)

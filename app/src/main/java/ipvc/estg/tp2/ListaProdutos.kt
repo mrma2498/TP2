@@ -106,6 +106,7 @@ class ListaProdutos : AppCompatActivity() {
     private fun getListaLojas(Lista: ArrayList<String>) {
 
         var produtosEncontrados = ArrayList<String>()
+        var cordenadasLojas = ArrayList<Float>()
 
         val docs = Firebase.firestore.collection("lojas")
 
@@ -182,8 +183,19 @@ class ListaProdutos : AppCompatActivity() {
                 }
             }
 
+            for(j in finalLojas){
+
+                cordenadasLojas.add(j.localizacao.latitude.toFloat())
+                cordenadasLojas.add(j.localizacao.longitude.toFloat())
+
+
+            }
+            Log.d("Teste", cordenadasLojas.toString())
+
+
+
             val intent = Intent(this@ListaProdutos, MapsActivity::class.java)
-            intent.putExtra("key", finalLojas)
+            intent.putExtra("key", cordenadasLojas)
             startActivity(intent)
 
         }
