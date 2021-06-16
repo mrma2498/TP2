@@ -194,7 +194,7 @@ class ListaProdutos : AppCompatActivity() {
 
 
 
-            val intent = Intent(this@ListaProdutos, MapsActivity::class.java)
+            val intent = Intent(this@ListaProdutos, RotasActivity::class.java)
             intent.putExtra("key", cordenadasLojas)
             startActivity(intent)
 

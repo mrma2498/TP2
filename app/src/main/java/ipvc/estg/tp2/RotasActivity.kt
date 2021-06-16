@@ -24,7 +24,7 @@ import com.squareup.okhttp.Request
 import ipvc.estg.tp2.model.Loja
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class RotasActivity : AppCompatActivity(), OnMapReadyCallback {
 
     var pontos = ArrayList<Float>()
     var waypointsFinal = ArrayList<LatLng>()
