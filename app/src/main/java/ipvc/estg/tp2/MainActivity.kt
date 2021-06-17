@@ -11,6 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.DocumentReference
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val bntMapa = findViewById<Button>(R.id.pagMap)
+        val bntMapa = findViewById<ImageView>(R.id.mainpageIcon)
         bntMapa.setOnClickListener {
             val intent = Intent(this@MainActivity, ListaProdutos::class.java)
             startActivity(intent)
