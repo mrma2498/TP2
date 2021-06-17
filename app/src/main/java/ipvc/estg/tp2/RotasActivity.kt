@@ -197,7 +197,7 @@ class RotasActivity : AppCompatActivity(), OnMapReadyCallback {
             val lineoption = PolylineOptions()
             for (i in result.indices){
                 lineoption.addAll(result[i])
-                lineoption.width(10f)
+                lineoption.width(5f)
                 lineoption.color(Color.BLUE)
                 lineoption.geodesic(true)
             }
