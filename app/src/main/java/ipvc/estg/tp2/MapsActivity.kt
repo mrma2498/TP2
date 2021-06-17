@@ -202,7 +202,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val LatLongB = LatLngBounds.Builder()
         val inicio = LatLng(inicioInicial.latitude, inicioInicial.longitude)
             val destino = LatLng(destinoFinal.latitude, destinoFinal.longitude)
-            mMap!!.addMarker(MarkerOptions().position(inicio).title("Saida"))
 // Declare polyline object and set up color and width
         val options = PolylineOptions()
 
