@@ -163,7 +163,7 @@ class ListaProdutos : AppCompatActivity() {
                     //       Log.d("TAG", lojas.produtos[i].nome + "\n")
                     for(produto in Lista){
                         Log.d("TOG", produto + lojas.produtos[i].nome)
-                        if(produto == lojas.produtos[i].nome ){
+                        if(produto == lojas.produtos[i].nome && lojas.produtos[i].disponivel == true){
                             if(produtosEncontrados.contains(produto)) {
                                 Log.d("TAG", "Ja foi encontrada uma loja para esse produto")
                             }else{
